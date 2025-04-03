@@ -1,0 +1,58 @@
+.add-product-dialog {
+  border-radius: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.upload-section {
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.upload-section:hover {
+  border-color: #f4d609;
+  cursor: pointer;
+}
+
+.upload-area {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+
+.upload-placeholder {
+  text-align: center;
+}
+
+:deep(.v-field) {
+  border-radius: 8px;
+}
+
+:deep(.v-field__outline) {
+  border-color: #e2e8f0 !important;
+}
+
+:deep(.v-field--focused .v-field__outline) {
+  border-color: #f4d609 !important;
+}
+
+:deep(.v-label) {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.v-card-title {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
+.v-btn {
+  text-transform: none;
+  font-weight: 500;
+} 
