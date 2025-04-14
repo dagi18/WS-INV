@@ -15,8 +15,8 @@
           ></v-badge>
         </v-btn>
         
-            </div>
-          </template>
+        <v-menu>
+
           <v-list width="200">
             <v-list-item
               v-for="(item, index) in userMenuItems"
@@ -443,9 +443,5 @@ const submitTransfer = async () => {
 :deep(.v-btn) {
   text-transform: none !important;
   font-weight: 500 !important;
-}
-
-:deep(.v-btn.v-btn--variant-text) {
-  opacity: 1 !important;
 }
 </style> 

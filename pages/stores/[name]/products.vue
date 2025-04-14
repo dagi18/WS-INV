@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="d-flex justify-space-between align-center mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">Products</h1>
-        <p class="text-subtitle-1 text-medium-emphasis">Manage your inventory</p>
+        <h1 class="text-h5 font-weight-bold mb-1">{{ store.name }}</h1>
+        <p class="text-subtitle-1 text-medium-emphasis">Store Products</p>
       </div>
       <v-btn
         color="warning"
@@ -15,33 +15,9 @@
       </v-btn>
     </div>
 
-    <!-- Search and Filter -->
-    <div class="d-flex gap-4 mb-6">
-      <v-text-field
-        v-model="search"
-        placeholder="Search products..."
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        density="comfortable"
-        hide-details
-        class="max-w-[300px]"
-      ></v-text-field>
-      
-      <v-select
-        v-model="categoryFilter"
-        :items="categories"
-        placeholder="All Categories"
-        prepend-inner-icon="mdi-filter-variant"
-        variant="outlined"
-        density="comfortable"
-        hide-details
-        class="max-w-[200px]"
-      ></v-select>
-    </div>
-
     <!-- Product Grid -->
     <v-row>
-      <v-col v-for="product in filteredProducts" :key="product.id" cols="12" sm="6" md="4" lg="3">
+      <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
         <v-card class="product-card" elevation="0">
           <v-img
             :src="product.image || 'https://via.placeholder.com/300x200?text=No+Image'"
@@ -128,14 +104,6 @@
               density="comfortable"
               class="mb-2"
             ></v-text-field>
-            <v-select
-              v-model="editedProduct.category"
-              :items="categories"
-              label="Category"
-              variant="outlined"
-              density="comfortable"
-              class="mb-2"
-            ></v-select>
             <v-text-field
               v-model="editedProduct.quantity"
               label="Quantity"
@@ -174,29 +142,23 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
-const router = useRouter()
+const route = useRoute()
 const dialog = ref(false)
 const editMode = ref(false)
-const search = ref('')
-const categoryFilter = ref(null)
 const editedProduct = ref({})
 
-const categories = [
-  'Network Devices',
-  'Fiber Optics',
-  'Cables',
-  'Accessories',
-  'Power Supplies'
-]
+const store = {
+  name: route.params.name,
+  // Add other store details as needed
+}
 
 const products = ref([
   {
     id: 1,
     name: 'WS Fiber Patch Cable 60m',
     sku: 'WS-FPC-60M',
-    category: 'Fiber Optics',
     quantity: 15,
     status: 'in-stock',
     location: 'Shelf S1-C1-R4',
@@ -206,43 +168,13 @@ const products = ref([
     id: 2,
     name: 'Cable Clip 18mm',
     sku: 'CC-18MM',
-    category: 'Accessories',
     quantity: 5,
     status: 'low-stock',
     location: 'Shelf S1-C3-R4',
     image: null
   },
-  {
-    id: 3,
-    name: 'K-010G GPON ONU Alcatel',
-    sku: 'K-010G',
-    category: 'Network Devices',
-    quantity: 25,
-    status: 'in-stock',
-    location: 'Shelf S1-C4-R4',
-    image: null
-  }
+  // Add more products as needed
 ])
-
-const filteredProducts = computed(() => {
-  let filtered = [...products.value]
-  
-  if (search.value) {
-    const searchLower = search.value.toLowerCase()
-    filtered = filtered.filter(product => 
-      product.name.toLowerCase().includes(searchLower) ||
-      product.sku.toLowerCase().includes(searchLower)
-    )
-  }
-  
-  if (categoryFilter.value) {
-    filtered = filtered.filter(product => 
-      product.category === categoryFilter.value
-    )
-  }
-  
-  return filtered
-})
 
 const getStatusColor = (status) => {
   switch (status) {
@@ -262,7 +194,6 @@ const addProduct = () => {
   editedProduct.value = {
     name: '',
     sku: '',
-    category: '',
     quantity: 0,
     location: ''
   }
@@ -276,7 +207,8 @@ const editProduct = (product) => {
 }
 
 const viewProduct = (product) => {
-  router.push(`/products/${product.sku}`)
+  // Implement view product logic
+  console.log('View product:', product)
 }
 
 const saveProduct = () => {

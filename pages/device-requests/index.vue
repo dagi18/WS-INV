@@ -58,8 +58,9 @@
         <template v-slot:item.status="{ item }">
           <v-chip
             :color="getStatusColor(item.status)"
-            :text-color="item.status === 'Pending' ? 'black' : 'white'"
+            :text-color="getStatusTextColor(item.status)"
             size="small"
+            class="status-chip"
           >
             {{ item.status }}
           </v-chip>
@@ -210,6 +211,7 @@ const headers = [
   { title: 'Date', align: 'start', key: 'date' },
   { title: 'Product', align: 'start', key: 'product' },
   { title: 'Store', align: 'start', key: 'store' },
+  { title: 'Quantity', align: 'start', key: 'quantity' },
   { title: 'Status', align: 'start', key: 'status' },
   { title: 'Summary', align: 'start', key: 'summary' },
   { title: 'Actions', align: 'end', key: 'actions', sortable: false }
@@ -289,14 +291,19 @@ const filteredRequests = computed(() => {
 
 const getStatusColor = (status) => {
   switch (status) {
-    case 'Approved':
-      return 'success'
-    case 'Pending':
-      return 'warning'
-    case 'Rejected':
-      return 'error'
-    default:
-      return 'grey'
+    case 'Approved': return 'success'
+    case 'Rejected': return 'error'
+    case 'Pending': return 'warning'
+    default: return 'grey'
+  }
+}
+
+const getStatusTextColor = (status) => {
+  switch (status) {
+    case 'Approved': return 'white'
+    case 'Rejected': return 'white'
+    case 'Pending': return 'black'
+    default: return 'white'
   }
 }
 
@@ -414,5 +421,31 @@ const submitRequest = async () => {
 
 :deep(.v-btn.v-btn--variant-text) {
   opacity: 1 !important;
+}
+
+.status-chip {
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+:deep(.v-chip--size-small) {
+  height: 24px !important;
+  font-size: 0.75rem !important;
+}
+
+:deep(.v-chip--variant-elevated) {
+  box-shadow: none !important;
+}
+
+:deep(.v-chip--color-success) {
+  background: #4CAF50 !important;
+}
+
+:deep(.v-chip--color-error) {
+  background: #F44336 !important;
+}
+
+:deep(.v-chip--color-warning) {
+  background: #FFD600 !important;
 }
 </style> 

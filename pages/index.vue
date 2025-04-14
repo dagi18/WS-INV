@@ -1,29 +1,35 @@
 <template>
   <div class="dashboard-container">
+    <!-- Header Section -->
+
     <!-- Statistics Cards -->
     <v-container fluid class="px-0">
       <v-row class="mt-2" no-gutters>
-        <!-- Total Products -->
+        <!-- Total Devices -->
         <v-col cols="2.4" class="px-1">
           <v-card 
             class="rounded-lg pa-4 stat-card" 
-            elevation="0"
-            @click="navigateTo('/products')"
+            flat
+            height="150px"
+            @click="navigateTo('../products/index.vue')"
           >
             <div class="d-flex align-center justify-space-between h-100">
               <div>
-                <div class="text-subtitle-1 mb-2">Total Products</div>
+                <div class="subtitle-1 mb-2 grey--text text--darken-1">Total Devices</div>
                 <div class="d-flex flex-column">
-                  <span class="text-h4 font-weight-bold mb-1">{{ totalProducts }}</span>
-                  <span class="text-success text-caption">{{ productsGrowth }}% this month</span>
+                  <span class="display-2 font-weight-bold mb-1">{{ totalProducts }}</span>
+                  <span class="success--text caption font-weight-medium">
+                    <v-icon small class="mr-1">mdi-trending-up</v-icon>
+                    +10% vs. last month
+                  </span>
                 </div>
               </div>
               <v-avatar
                 color="warning"
-                size="42"
-                class="rounded-circle"
+                size="48"
+                class="rounded-circle elevation-2"
               >
-                <v-icon color="white" size="24">mdi-package-variant</v-icon>
+                <v-icon color="white" size="28">mdi-package-variant</v-icon>
               </v-avatar>
             </div>
           </v-card>
@@ -33,337 +39,359 @@
         <v-col cols="2.4" class="px-1">
           <v-card 
             class="rounded-lg pa-4 stat-card" 
-            elevation="0"
-            @click="navigateTo('/device-requests')"
+            flat
+            height="150px"
+            @click="navigateTo('../device-requests/index.vue')"
           >
             <div class="d-flex align-center justify-space-between h-100">
-  <div>
-                <div class="text-subtitle-1 mb-2">Pending Requests</div>
+              <div>
+                <div class="subtitle-1 mb-2 grey--text text--darken-1">Pending Requests</div>
                 <div class="d-flex flex-column">
-                  <span class="text-h4 font-weight-bold mb-1">{{ pendingRequests }}</span>
-                  <span class="text-error text-caption">{{ requestsGrowth }}% vs last month</span>
+                  <span class="display-2 font-weight-bold mb-1">8</span>
+                  <span class="error--text caption font-weight-medium">
+                    <v-icon small class="mr-1">mdi-trending-down</v-icon>
+                    -5% vs. last month
+                  </span>
                 </div>
               </div>
               <v-avatar
                 color="primary"
-                size="42"
-                class="rounded-circle"
+                size="48"
+                class="rounded-circle elevation-2"
               >
-                <v-icon color="white" size="24">mdi-clipboard-text-clock</v-icon>
+                <v-icon color="white" size="28">mdi-clipboard-text-clock</v-icon>
               </v-avatar>
             </div>
-        </v-card>
-      </v-col>
+          </v-card>
+        </v-col>
 
         <!-- Pending Transfers -->
         <v-col cols="2.4" class="px-1">
           <v-card 
             class="rounded-lg pa-4 stat-card" 
-            elevation="0"
+            flat
+            height="150px"
             @click="navigateTo('/transfer-requests')"
           >
             <div class="d-flex align-center justify-space-between h-100">
               <div>
-                <div class="text-subtitle-1 mb-2">Pending Transfers</div>
+                <div class="subtitle-1 mb-2 grey--text text--darken-1">Pending Transfers</div>
                 <div class="d-flex flex-column">
-                  <span class="text-h4 font-weight-bold mb-1">11</span>
-                  <span class="text-success text-caption">+3% vs. last month</span>
+                  <span class="display-2 font-weight-bold mb-1">11</span>
+                  <span class="success--text caption font-weight-medium">
+                    <v-icon small class="mr-1">mdi-trending-up</v-icon>
+                    +3% vs. last month
+                  </span>
                 </div>
               </div>
               <v-avatar
                 color="purple"
-                size="42"
-                class="rounded-circle"
+                size="48"
+                class="rounded-circle elevation-2"
               >
-                <v-icon color="white" size="24">mdi-transfer</v-icon>
+                <v-icon color="white" size="28">mdi-transfer</v-icon>
               </v-avatar>
             </div>
-        </v-card>
-      </v-col>
+          </v-card>
+        </v-col>
 
         <!-- Low Stock Items -->
         <v-col cols="2.4" class="px-1">
           <v-card 
             class="rounded-lg pa-4 stat-card" 
-            elevation="0"
+            flat
+            height="150px"
             @click="navigateTo('/low-stock')"
           >
             <div class="d-flex align-center justify-space-between h-100">
               <div>
-                <div class="text-subtitle-1 mb-2">Low Stock Items</div>
+                <div class="subtitle-1 mb-2 grey--text text--darken-1">Low Stock Items</div>
                 <div class="d-flex flex-column">
-                  <span class="text-h4 font-weight-bold mb-1">3</span>
-                  <span class="text-error text-caption">-20% vs. last month</span>
+                  <span class="display-2 font-weight-bold mb-1">3</span>
+                  <span class="error--text caption font-weight-medium">
+                    <v-icon small class="mr-1">mdi-trending-down</v-icon>
+                    -20% vs. last month
+                  </span>
                 </div>
               </div>
               <v-avatar
                 color="error"
-                size="42"
-                class="rounded-circle"
+                size="48"
+                class="rounded-circle elevation-2"
               >
-                <v-icon color="white" size="24">mdi-alert</v-icon>
+                <v-icon color="white" size="28">mdi-alert</v-icon>
               </v-avatar>
             </div>
-        </v-card>
-      </v-col>
+          </v-card>
+        </v-col>
 
         <!-- Incomplete Declarations -->
         <v-col cols="2.4" class="px-1">
           <v-card 
             class="rounded-lg pa-4 stat-card" 
-            elevation="0"
+            flat
+            height="150px"
             @click="navigateTo('/declarations')"
           >
             <div class="d-flex align-center justify-space-between h-100">
               <div>
-                <div class="text-subtitle-1 mb-2">Incomplete Declarations</div>
+                <div class="subtitle-1 mb-2 grey--text text--darken-1">Incomplete Declarations</div>
                 <div class="d-flex flex-column">
-                  <span class="text-h4 font-weight-bold mb-1">5</span>
-                  <span class="text-success text-caption">+2 new</span>
+                  <span class="display-2 font-weight-bold mb-1">5</span>
+                  <span class="success--text caption font-weight-medium">
+                    <v-icon small class="mr-1">mdi-plus</v-icon>
+                    +2 new
+                  </span>
                 </div>
               </div>
               <v-avatar
                 color="orange"
-                size="42"
-                class="rounded-circle"
+                size="48"
+                class="rounded-circle elevation-2"
               >
-                <v-icon color="white" size="24">mdi-file-document-alert</v-icon>
+                <v-icon color="white" size="28">mdi-file-document-alert</v-icon>
               </v-avatar>
             </div>
-        </v-card>
-      </v-col>
-    </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 
     <!-- Main Content Area -->
-    <v-row class="mt-6">
+    <v-row class="mt-8">
       <!-- Left Column -->
       <v-col cols="12" md="8">
         <!-- Recent Stock -->
-        <v-card class="mb-6">
-          <v-card-title class="d-flex justify-space-between align-center px-6">
-            <span>Recent Stock</span>
+        <v-card class="mb-6 rounded-lg" flat>
+          <v-card-title class="d-flex justify-space-between align-center px-6 py-4">
+            <div>
+              <span class="headline font-weight-bold">Recent Stock</span>
+              <p class="subtitle-1 grey--text mb-0">Latest inventory updates</p>
+            </div>
             <v-btn
-              variant="text"
+              text
               color="warning"
               class="text-none"
+              @click="navigateTo('/products')"
             >
-              See all →
+              See all
+              <v-icon right>mdi-arrow-right</v-icon>
             </v-btn>
           </v-card-title>
-          <v-table>
-            <thead>
-              <tr>
-                <th>Batch No.</th>
-                <th>Product</th>
-                <th>Batch Code</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in recentStock" :key="item.batchNo">
-                <td>{{ item.batchNo }}</td>
-                <td>
-                  <div class="d-flex align-center">
-                    <v-avatar size="32" class="bg-grey-lighten-3 mr-2"></v-avatar>
-                    {{ item.product }}
-                  </div>
-                </td>
-                <td>{{ item.batchCode }}</td>
-                <td>
-                  <v-btn
-                    color="black"
-                    size="small"
-                    variant="flat"
-                  >
-                    More
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
+          <v-divider></v-divider>
+          <v-data-table
+            :headers="stockHeaders"
+            :items="recentStock"
+            :items-per-page="5"
+            class="elevation-0"
+            hide-default-footer
+          >
+            <template v-slot:item.product="{ item }">
+              <div class="d-flex align-center">
+                <v-avatar size="40" class="grey lighten-3 mr-3">
+                  <v-icon color="grey">mdi-package-variant</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="subtitle-1 font-weight-medium">{{ item.product }}</div>
+                  <div class="caption grey--text">{{ item.batchCode }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                color="warning"
+                small
+                class="text-none"
+                @click="navigateToProduct(item.product)"
+              >
+                More
+                <v-icon right small>mdi-chevron-right</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
         </v-card>
 
         <!-- Your Devices -->
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center px-6">
-            <span>Your Devices</span>
+        <v-card class="rounded-lg" flat>
+          <v-card-title class="d-flex justify-space-between align-center px-6 py-4">
+            <div>
+              <span class="headline font-weight-bold">Your Devices</span>
+              <p class="subtitle-1 grey--text mb-0">Currently assigned equipment</p>
+            </div>
             <v-btn
-              variant="text"
+              text
               color="warning"
               class="text-none"
+              @click="navigateTo('/your-devices')"
             >
-              View all →
+              View all
+              <v-icon right>mdi-arrow-right</v-icon>
             </v-btn>
           </v-card-title>
-          <v-table>
-            <thead>
-              <tr>
-                <th>Vendor</th>
-                <th>Product</th>
-                <th>Status</th>
-                <th>Location</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>TP-LINK</td>
-                <td>
-                  <div class="d-flex align-center">
-                    <v-icon size="small" class="mr-2">mdi-router-wireless</v-icon>
-                    3G/4G WIRELESS N ROUTER
-                  </div>
-                </td>
-                <td>
-                  <v-chip
-                    size="small"
-                    color="success"
-                    variant="flat"
-                  >
-                    Store
-                  </v-chip>
-                </td>
-                <td>BloomTech</td>
-                <td>
-                  <v-btn
-                    color="black"
-                    size="small"
-                    variant="flat"
-                  >
-                    Request
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
+          <v-divider></v-divider>
+          <v-data-table
+            :headers="deviceHeaders"
+            :items="yourDevices"
+            :items-per-page="5"
+            class="elevation-0"
+            hide-default-footer
+          >
+            <template v-slot:item.product="{ item }">
+              <div class="d-flex align-center">
+                <v-avatar size="40" class="primary lighten-3 mr-3">
+                  <v-icon color="primary">mdi-router-wireless</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="subtitle-1 font-weight-medium">{{ item.product }}</div>
+                  <div class="caption grey--text">{{ item.vendor }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                small
+                :color="item.status === 'Store' ? 'success' : 'warning'"
+                class="white--text font-weight-medium"
+              >
+                {{ item.status }}
+              </v-chip>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                color="warning"
+                small
+                class="text-none"
+                @click="requestDevice(item)"
+              >
+                Request
+                <v-icon right small>mdi-chevron-right</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
+        </v-card>
+
+        <!-- Recent Activity -->
+        <v-card class="rounded-lg" flat>
+          <v-card-title class="d-flex justify-space-between align-center px-6 py-4">
+            <div>
+              <span class="headline font-weight-bold">Recent Activity</span>
+            </div>
+            <v-btn
+              text
+              color="warning"
+              class="text-none"
+              @click="navigateTo('/activity')"
+            >
+              View all
+              <v-icon right>mdi-arrow-right</v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="pa-4">
+            <v-list>
+              <v-list-item v-for="(activity, index) in recentActivities" :key="index">
+                <v-list-item-icon>
+                  <v-avatar color="yellow lighten-4" size="32">
+                    <v-icon color="yellow darken-2">mdi-check-circle-outline</v-icon>
+                  </v-avatar>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="font-weight-bold">{{ activity.title }}</v-list-item-title>
+                  <v-list-item-subtitle class="grey--text">{{ activity.description }}</v-list-item-subtitle>
+                  <v-list-item-subtitle class="grey--text">By {{ activity.user }}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <span class="caption grey--text">{{ activity.time }}</span>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
         </v-card>
       </v-col>
 
       <!-- Right Column -->
       <v-col cols="12" md="4">
         <!-- Inventory Summary -->
-        <v-card class="mb-6">
-          <v-card-title>Inventory Summary</v-card-title>
-          <v-card-text>
-            <div class="mb-4">
-              <div class="d-flex justify-space-between mb-1">
-                <span>Network Devices</span>
-                <span>425 units</span>
-              </div>
-              <v-progress-linear
-                color="warning"
-                height="8"
-                rounded
-                value="70"
-              ></v-progress-linear>
-            </div>
-
-            <div class="mb-4">
-              <div class="d-flex justify-space-between mb-1">
-                <span>Accessories</span>
-                <span>312 units</span>
-              </div>
-              <v-progress-linear
-                color="warning"
-                height="8"
-                rounded
-                value="50"
-              ></v-progress-linear>
-            </div>
-
-            <div class="mb-4">
-              <div class="d-flex justify-space-between mb-1">
-                <span>Cables</span>
-                <span>215 units</span>
-              </div>
-              <v-progress-linear
-                color="warning"
-                height="8"
-                rounded
-                value="35"
-              ></v-progress-linear>
-            </div>
-
+        <v-card class="mb-6 rounded-lg" flat>
+          <v-card-title class="px-6 py-4">
             <div>
-              <div class="d-flex justify-space-between mb-1">
-                <span>Other Hardware</span>
-                <span>112 units</span>
-              </div>
-              <v-progress-linear
-                color="warning"
-                height="8"
-                rounded
-                value="20"
-              ></v-progress-linear>
+              <span class="headline font-weight-bold">Inventory Summary</span>
             </div>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="pa-0">
+            <v-list>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="subtitle-1 font-weight-medium">Network Devices</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <span class="caption grey--text">425 units</span>
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="subtitle-1 font-weight-medium">Accessories</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <span class="caption grey--text">312 units</span>
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="subtitle-1 font-weight-medium">Cables</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <span class="caption grey--text">215 units</span>
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="subtitle-1 font-weight-medium">Other Hardware</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <span class="caption grey--text">112 units</span>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-card-text>
         </v-card>
 
-    <!-- Quick Actions -->
-        <v-card>
-          <v-card-title>Quick Actions</v-card-title>
-          <v-card-text>
-            <v-row>
-            <v-col cols="6">
-                <v-btn
-                  block
-                color="warning"
-                variant="flat"
-                  prepend-icon="mdi-plus"
+        <!-- Quick Actions -->
+        <v-card class="rounded-lg" flat>
+          <v-card-title class="px-6 py-4">
+            <div>
+              <span class="headline font-weight-bold">Quick Actions</span>
+            </div>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="pa-0">
+            <v-list>
+              <v-list-item
+                v-for="(action, i) in quickActions"
+                :key="i"
+                @click="handleQuickAction(action)"
+                class="px-6"
               >
-                Add Products
-              </v-btn>
-            </v-col>
-            <v-col cols="6">
-              <v-btn
-                block
-                color="warning"
-                variant="outlined"
-                prepend-icon="mdi-clipboard-text"
-              >
-                New Tally
-                </v-btn>
-              </v-col>
-          </v-row>
-          <v-row class="mt-2">
-            <v-col cols="6">
-                <v-btn
-                  block
-                color="warning"
-                variant="outlined"
-                prepend-icon="mdi-store"
-              >
-                Create Store
-                </v-btn>
-              </v-col>
-            <v-col cols="6">
-                <v-btn
-                  block
-                color="warning"
-                variant="outlined"
-                prepend-icon="mdi-account-group"
-              >
-                Add Vendors
-                </v-btn>
-              </v-col>
-          </v-row>
-          <v-row class="mt-2">
-            <v-col cols="12">
-                <v-btn
-                  block
-                color="warning"
-                variant="outlined"
-                prepend-icon="mdi-domain"
-              >
-                Create Facilities
-                </v-btn>
-              </v-col>
-            </v-row>
+                <v-list-item-icon class="mr-4">
+                  <v-avatar
+                    :color="action.color"
+                    size="40"
+                    class="elevation-2"
+                  >
+                    <v-icon color="white" size="24">{{ action.icon }}</v-icon>
+                  </v-avatar>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="subtitle-1 font-weight-medium">{{ action.title }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-icon color="grey">mdi-chevron-right</v-icon>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-card-text>
         </v-card>
-
-      <RecentActivities />
       </v-col>
     </v-row>
   </div>
@@ -543,68 +571,207 @@ const recentStock = [
     batchCode: 'Headset'
   }
 ]
+
+const navigateToProduct = (productName) => {
+  const product = products.find(p => p.name === productName)
+  if (product) {
+    navigateTo(`/products/${product.sku}`)
+  }
+}
+
+// Add new function for device requests
+const requestDevice = (device) => {
+  navigateTo(`/device-requests/new?product=${encodeURIComponent(device.product)}&location=${encodeURIComponent(device.location)}`)
+}
+
+// Add your devices data
+const yourDevices = [
+  {
+    vendor: 'TP-LINK',
+    product: '3G/4G WIRELESS N ROUTER',
+    status: 'Store',
+    location: 'BloomTech'
+  }
+  // Add more devices as needed
+]
+
+const stockHeaders = [
+  { text: 'Batch No.', value: 'batchNo' },
+  { text: 'Product', value: 'product' },
+  { text: 'Batch Code', value: 'batchCode' },
+  { text: 'Actions', value: 'actions', sortable: false }
+]
+
+const deviceHeaders = [
+  { text: 'Vendor', value: 'vendor' },
+  { text: 'Product', value: 'product' },
+  { text: 'Status', value: 'status' },
+  { text: 'Location', value: 'location' },
+  { text: 'Actions', value: 'actions', sortable: false }
+]
+
+const recentActivities = [
+  {
+    title: 'Added new device',
+    description: 'UISP airMAX NanoStation 5AC Loco',
+    user: 'Abraham Tibebu',
+    time: '2 hours ago'
+  },
+  {
+    title: 'Updated stock count',
+    description: 'Fiber Patch Cable 100m',
+    user: 'Kedir Yusuf',
+    time: '5 hours ago'
+  },
+  {
+    title: 'Transferred item',
+    description: 'Ethernet Cable Cat6 3m',
+    user: 'Dawit Tesfaye',
+    time: '1 day ago'
+  }
+]
+
+const quickActions = [
+  {
+    title: 'Add New Product',
+    icon: 'mdi-plus',
+    color: 'success'
+  },
+  {
+    title: 'Request Device',
+    icon: 'mdi-clipboard-text',
+    color: 'primary'
+  },
+  {
+    title: 'Transfer Request',
+    icon: 'mdi-transfer',
+    color: 'purple'
+  }
+]
+
+const handleActivityAction = (activity) => {
+  // Handle activity action
+}
+
+const handleQuickAction = (action) => {
+  // Handle quick action
+}
 </script>
 
 <style scoped>
-.v-card {
-  border: 1px solid #eee !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-  transition: all 0.3s ease;
+.dashboard-container {
+  padding: 24px;
+  background-color: #f0f2f5;
+}
+
+.dashboard-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding-bottom: 16px;
+  color: #333;
 }
 
 .stat-card {
   cursor: pointer;
-  height: 100%;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: white;
+  height: 150px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-.text-h4 {
-  font-size: 2rem !important;
-  line-height: 1.2 !important;
+.v-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
-.text-subtitle-1 {
-  color: #4B5563 !important;
-  font-weight: 500 !important;
+.v-card-title {
+  padding: 12px 16px !important;
 }
 
-.text-caption {
-  font-size: 0.75rem !important;
-  font-weight: 500 !important;
+.v-card-text {
+  padding: 8px 16px !important;
 }
 
-.text-success {
-  color: #22C55E !important;
+.v-data-table {
+  border-radius: 8px;
 }
 
-.text-error {
-  color: #EF4444 !important;
+.v-data-table >>> thead th {
+  background-color: #f0f2f5;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  padding: 8px 16px !important;
+}
+
+.v-data-table >>> tbody td {
+  padding: 8px 16px !important;
+}
+
+.v-data-table >>> tbody tr:hover {
+  background-color: rgba(255, 212, 59, 0.05);
+}
+
+.v-timeline-item {
+  padding: 8px 0;
+}
+
+.v-list-item {
+  transition: all 0.3s ease;
+  padding: 8px 16px !important;
+}
+
+.v-list-item:hover {
+  background-color: rgba(255, 212, 59, 0.05);
+}
+
+.v-btn {
+  text-transform: none;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  color: #007bff;
+}
+
+.v-btn--text {
+  font-weight: 500;
+}
+
+.v-chip {
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .v-avatar {
-  border: 4px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
-.rounded-circle {
-  border-radius: 9999px !important;
+.v-avatar:hover {
+  transform: scale(1.05);
 }
 
-/* Ensure flex layout works properly */
 .v-row {
-  display: flex;
-  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
-.v-col {
-  display: flex;
+.v-list-item__content {
+  padding: 4px 0 !important;
 }
 
-.dashboard-container {
-  width: 75%;
-  margin: 0 auto;
+.v-card__title {
+  padding-bottom: 8px !important;
+}
+
+.v-data-table__wrapper {
+  padding: 0 8px;
 }
 </style>

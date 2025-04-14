@@ -140,13 +140,197 @@
 
       <!-- Action Buttons -->
       <div class="d-flex justify-end gap-2 mt-6">
-        <v-btn color="warning" prepend-icon="mdi-transfer" variant="outlined">
+        <v-btn 
+          color="warning" 
+          prepend-icon="mdi-transfer" 
+          variant="outlined"
+          @click="showTransferDialog = true"
+        >
           Request Transfer
         </v-btn>
-        <v-btn color="warning" prepend-icon="mdi-cart" variant="flat">
+        <v-btn 
+          color="warning" 
+          prepend-icon="mdi-cart" 
+          variant="flat"
+          @click="showDeviceDialog = true"
+        >
           Request Item
         </v-btn>
       </div>
+
+      <!-- Transfer Request Dialog -->
+      <v-dialog v-model="showTransferDialog" width="600" persistent>
+        <v-card class="request-dialog">
+          <v-card-title class="d-flex justify-space-between align-center pa-6">
+            <span class="text-h5 font-weight-bold">Request Transfer</span>
+            <v-btn icon="mdi-close" variant="text" @click="showTransferDialog = false"></v-btn>
+          </v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="pa-6">
+            <v-form ref="transferForm" v-model="transferValid">
+              <v-text-field
+                v-model="product.name"
+                label="Product"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                readonly
+              ></v-text-field>
+
+              <v-select
+                v-model="transferRequest.fromStore"
+                :items="stores"
+                label="From Store"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                :rules="[v => !!v || 'From Store is required']"
+              ></v-select>
+
+              <v-select
+                v-model="transferRequest.toStore"
+                :items="stores"
+                label="To Store"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                :rules="[v => !!v || 'To Store is required']"
+              ></v-select>
+
+              <v-text-field
+                v-model.number="transferRequest.quantity"
+                label="Quantity"
+                type="number"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                :rules="[
+                  v => !!v || 'Quantity is required',
+                  v => v > 0 || 'Quantity must be greater than 0',
+                  v => v <= product.stock.inStock || 'Quantity exceeds available stock'
+                ]"
+              ></v-text-field>
+
+              <v-textarea
+                v-model="transferRequest.summary"
+                label="Transfer Summary"
+                variant="outlined"
+                density="comfortable"
+                rows="3"
+                class="mb-4"
+                :rules="[v => !!v || 'Summary is required']"
+              ></v-textarea>
+            </v-form>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions class="pa-6">
+            <v-spacer></v-spacer>
+            <v-btn
+              variant="outlined"
+              color="grey"
+              @click="showTransferDialog = false"
+              class="mr-4 text-none"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="black"
+              :loading="submitting"
+              :disabled="!transferValid"
+              @click="submitTransferRequest"
+              class="text-none font-weight-medium text-warning"
+            >
+              Submit Request
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- Device Request Dialog -->
+      <v-dialog v-model="showDeviceDialog" width="600" persistent>
+        <v-card class="request-dialog">
+          <v-card-title class="d-flex justify-space-between align-center pa-6">
+            <span class="text-h5 font-weight-bold">Request Device</span>
+            <v-btn icon="mdi-close" variant="text" @click="showDeviceDialog = false"></v-btn>
+          </v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="pa-6">
+            <v-form ref="deviceForm" v-model="deviceValid">
+              <v-text-field
+                v-model="product.name"
+                label="Product"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                readonly
+              ></v-text-field>
+
+              <v-select
+                v-model="deviceRequest.store"
+                :items="stores"
+                label="Store"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                :rules="[v => !!v || 'Store is required']"
+              ></v-select>
+
+              <v-text-field
+                v-model.number="deviceRequest.quantity"
+                label="Quantity"
+                type="number"
+                variant="outlined"
+                density="comfortable"
+                class="mb-4"
+                :rules="[
+                  v => !!v || 'Quantity is required',
+                  v => v > 0 || 'Quantity must be greater than 0',
+                  v => v <= product.stock.inStock || 'Quantity exceeds available stock'
+                ]"
+              ></v-text-field>
+
+              <v-textarea
+                v-model="deviceRequest.summary"
+                label="Request Summary"
+                variant="outlined"
+                density="comfortable"
+                rows="3"
+                class="mb-4"
+                :rules="[v => !!v || 'Summary is required']"
+              ></v-textarea>
+            </v-form>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions class="pa-6">
+            <v-spacer></v-spacer>
+            <v-btn
+              variant="outlined"
+              color="grey"
+              @click="showDeviceDialog = false"
+              class="mr-4 text-none"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="black"
+              :loading="submitting"
+              :disabled="!deviceValid"
+              @click="submitDeviceRequest"
+              class="text-none font-weight-medium text-warning"
+            >
+              Submit Request
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -159,6 +343,56 @@ const route = useRoute()
 const router = useRouter()
 const loading = ref(true)
 const activeTab = ref('description')
+
+// Add dialog refs and form data
+const showTransferDialog = ref(false)
+const showDeviceDialog = ref(false)
+const transferValid = ref(false)
+const deviceValid = ref(false)
+const submitting = ref(false)
+
+const stores = [
+  'BloomTech',
+  'Jakros Store',
+  'BloomTech No 3',
+  'Main Warehouse'
+]
+
+const transferRequest = ref({
+  fromStore: '',
+  toStore: '',
+  quantity: 1,
+  summary: ''
+})
+
+const deviceRequest = ref({
+  store: '',
+  quantity: 1,
+  summary: ''
+})
+
+// Add dialog methods
+const showTransferRequestDialog = () => {
+  router.push({
+    path: '/transfer-requests',
+    query: { 
+      product: product.value?.name,
+      sku: product.value?.sku,
+      quantity: 1
+    }
+  })
+}
+
+const showDeviceRequestDialog = () => {
+  router.push({
+    path: '/device-requests',
+    query: { 
+      product: product.value?.name,
+      sku: product.value?.sku,
+      quantity: 1
+    }
+  })
+}
 
 // Get products data from your store or API
 const products = [
@@ -522,6 +756,55 @@ const getStockStatusColor = (stock) => {
 const navigateBack = () => {
   router.push('/products')
 }
+
+const submitTransferRequest = async () => {
+  if (!transferValid.value) return
+
+  submitting.value = true
+  try {
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log('Transfer request submitted:', {
+      product: product.value.name,
+      ...transferRequest.value
+    })
+    showTransferDialog.value = false
+    transferRequest.value = {
+      fromStore: '',
+      toStore: '',
+      quantity: 1,
+      summary: ''
+    }
+  } catch (error) {
+    console.error('Error submitting transfer request:', error)
+  } finally {
+    submitting.value = false
+  }
+}
+
+const submitDeviceRequest = async () => {
+  if (!deviceValid.value) return
+
+  submitting.value = true
+  try {
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log('Device request submitted:', {
+      product: product.value.name,
+      ...deviceRequest.value
+    })
+    showDeviceDialog.value = false
+    deviceRequest.value = {
+      store: '',
+      quantity: 1,
+      summary: ''
+    }
+  } catch (error) {
+    console.error('Error submitting device request:', error)
+  } finally {
+    submitting.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -544,5 +827,9 @@ const navigateBack = () => {
 
 .description-list li {
   margin-bottom: 8px;
+}
+
+.request-dialog {
+  border-radius: 12px;
 }
 </style> 
